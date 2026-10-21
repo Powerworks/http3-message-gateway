@@ -1,0 +1,8 @@
+.DS_Store
+*.o
+gateway
+client
+build/
+dist/
+*.pem
+.vscode/

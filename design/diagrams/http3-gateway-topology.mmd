@@ -1,0 +1,26 @@
+flowchart LR
+    ClientA[Client A<br/>QUIC stream 1]
+    ClientB[Client B<br/>QUIC datagram]
+    
+    GW[HTTP/3 Gateway<br/>QUIC listener UDP 4433]
+    
+    subgraph Gateway Internal
+      Router[Frame Router<br/>msg_frame_decode]
+      Routes[Actor Route Table<br/>actor_id -> stream/datagram]
+    end
+    
+    ActorX[Actor X<br/>reliable stream]
+    ActorY[Actor Y<br/>datagram]
+    
+    ClientA -->|QUIC stream| GW
+    ClientB -->|QUIC datagram| GW
+    GW --> Router
+    Router --> Routes
+    Routes -->|actor_id match| ActorX
+    Routes -->|actor_id match| ActorY
+    
+    style GW fill:#bbf,stroke:#333
+    style Router fill:#f9f,stroke:#333
+    style Routes fill:#ffb,stroke:#333
+    style ActorX fill:#bfb,stroke:#333
+    style ActorY fill:#bfb,stroke:#333
